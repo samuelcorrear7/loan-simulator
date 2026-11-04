@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Simulator</title>
+</head>
+<body>
+
+    <h1>Loan Simulator</h1>
+
+    <form id="loanForm">
+        <label for="amount">Monto del préstamo:</label>
+        <input type="number" id="amount" min="1" step="0.01" required>
+        <br><br>
+
+        <label for="interestRate">Porcentaje de tasa de interés (%):</label>
+        <input type="number" id="interestRate" min="0" step="0.01" required>
+        <br><br>
+
+        <label for="interestType">Tipo de tasa:</label>
+        <select id="interestType" required>
+            <option value="monthly">Efectiva Mensual (EM)</option>
+            <option value="annual">Efectiva Anual (EA)</option>
+        </select>
+        <br><br>
+
+        <label for="term">Plazo (meses):</label>
+        <input type="number" id="term" min="1" step="1" required>
+        <br><br>
+
+        <button type="submit">Calcular préstamo</button>
+    </form>
+
+    <h2>Resultados del préstamo</h2>
+
+    <p id="monthlyPayment"></p>
+    <p id="totalPayment"></p>
+    <p id="totalInterest"></p>
+
+    <h2>Tabla de amortización</h2>
+
+    <table border="1" id="amortizationTable">
+        <thead>
+            <tr>
+                <th>Mes</th>
+                <th>Cuota</th>
+                <th>Capital</th>
+                <th>Interés</th>
+                <th>Saldo pendiente</th>
+            </tr>
+        </thead>
+        <tbody id="amortizationBody">
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById("loanForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Obtener los valores ingresados
+            const amount = parseFloat(document.getElementById("amount").value);
+            const interestRate = parseFloat(document.getElementById("interestRate").value);
+            const interestType = document.getElementById("interestType").value;
+            const term = parseInt(document.getElementById("term").value);
+
+            // Validar los datos
+            if (
+                !Number.isFinite(amount) || amount <= 0 ||
+                !Number.isFinite(interestRate) || interestRate < 0 ||
+                !Number.isInteger(term) || term <= 0
+            ) {
+                alert("Por favor, ingrese valores válidos.");
+                return;
+            }
+
+            // Convertir la tasa ingresada a tasa efectiva mensual
+            const rate = interestRate / 100;
+            let monthlyRate;
+
+            if (interestType === "monthly") {
+                monthlyRate = rate;
+            } else {
+                monthlyRate = Math.pow(1 + rate, 1 / 12) - 1;
+            }
+
+            // Calcular la cuota mensual
+            let monthlyPayment;
+
+            if (monthlyRate === 0) {
+                monthlyPayment = amount / term;
+            } else {
+                monthlyPayment =
+                    amount * monthlyRate /
+                    (1 - Math.pow(1 + monthlyRate, -term));
+            }
+
+            // Generar la tabla de amortización
+            const tbody = document.getElementById("amortizationBody");
+            tbody.innerHTML = "";
+
+            let balance = amount;
+            let totalInterest = 0;
+            let totalPayment = 0;
+
+            for (let month = 1; month <= term; month++) {
+                const interest = balance * monthlyRate;
+                let capital = monthlyPayment - interest;
+                let payment = monthlyPayment;
+
+                // Ajustar la última cuota para eliminar diferencias por redondeo
+                if (month === term) {
+                    capital = balance;
+                    payment = capital + interest;
+                }
+
+                balance -= capital;
+
+                if (Math.abs(balance) < 0.000001) {
+                    balance = 0;
+                }
+
+                totalInterest += interest;
+                totalPayment += payment;
+
+                const row = document.createElement("tr");
+
+                const values = [
+                    month,
+                    payment,
+                    capital,
+                    interest,
+                    balance
+                ];
+
+                values.forEach((value, index) => {
+                    const cell = document.createElement("td");
+
+                    if (index === 0) {
+                        cell.textContent = value;
+                    } else {
+                        cell.textContent = value.toLocaleString("es-CO", {
+                            style: "currency",
+                            currency: "COP",
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        });
+                    }
+
+                    row.appendChild(cell);
+                });
+
+                tbody.appendChild(row);
+            }
+
+            // Mostrar resultados
+            const formatCurrency = (value) => {
+                return value.toLocaleString("es-CO", {
+                    style: "currency",
+                    currency: "COP",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            };
+
+            document.getElementById("monthlyPayment").textContent =
+                "Cuota mensual aproximada: " + formatCurrency(monthlyPayment);
+
+            document.getElementById("totalPayment").textContent =
+                "Total a pagar: " + formatCurrency(totalPayment);
+
+            document.getElementById("totalInterest").textContent =
+                "Total de intereses: " + formatCurrency(totalInterest);
+        });
+    </script>
+
+</body>
+</html>

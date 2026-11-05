@@ -3,88 +3,752 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan Simulator</title>
+    <title>Loan Simulator | Simulador de Préstamos</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --navy: #10243E;
+            --navy-light: #193858;
+            --gold: #C8A45D;
+            --gold-light: #E5D2A5;
+            --white: #FFFFFF;
+            --background: #F3F6FA;
+            --text: #24364B;
+            --muted: #8290A3;
+            --border: #E1E7EF;
+            --success: #238568;
+            --shadow: 0 8px 30px rgba(16, 36, 62, 0.07);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--navy);
+            color: var(--white);
+            padding: 22px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .brand h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .brand span {
+            display: block;
+            color: var(--gold-light);
+            font-size: 11px;
+            margin-top: 3px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .header-label {
+            font-size: 12px;
+            color: #CBD5E1;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .page-heading {
+            margin-bottom: 30px;
+        }
+
+        .page-heading h2 {
+            font-size: 28px;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 370px 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 22px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-header i {
+            color: var(--gold);
+            font-size: 17px;
+        }
+
+        .card-header h3 {
+            color: var(--navy);
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 9px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            height: 47px;
+            padding: 0 14px 0 40px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #FBFCFE;
+            color: var(--navy);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        select {
+            padding-left: 40px;
+            cursor: pointer;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(200, 164, 93, 0.12);
+        }
+
+        .input-hint {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 7px;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            height: 49px;
+            border: none;
+            border-radius: 8px;
+            background: var(--navy);
+            color: var(--white);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s;
+            margin-top: 5px;
+        }
+
+        .calculate-btn:hover {
+            background: var(--navy-light);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 36, 62, 0.2);
+        }
+
+        .calculate-btn i {
+            margin-right: 9px;
+            color: var(--gold);
+        }
+
+        .results-content {
+            padding: 24px;
+        }
+
+        .results-placeholder {
+            text-align: center;
+            padding: 65px 20px;
+            color: var(--muted);
+        }
+
+        .results-placeholder i {
+            font-size: 42px;
+            color: var(--gold-light);
+            margin-bottom: 18px;
+        }
+
+        .results-placeholder h3 {
+            color: var(--navy);
+            font-size: 16px;
+            margin-bottom: 9px;
+        }
+
+        .results-placeholder p {
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 13px;
+            margin-bottom: 25px;
+        }
+
+        .summary-box {
+            padding: 19px 16px;
+            background: #F8FAFC;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .summary-box.highlight {
+            background: var(--navy);
+            border-color: var(--navy);
+        }
+
+        .summary-box .summary-label {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 600;
+            margin-bottom: 11px;
+            display: block;
+        }
+
+        .summary-box.highlight .summary-label {
+            color: #C9D5E3;
+        }
+
+        .summary-box .summary-value {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--navy);
+            word-break: break-word;
+        }
+
+        .summary-box.highlight .summary-value {
+            color: var(--gold-light);
+        }
+
+        .summary-box small {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 7px;
+        }
+
+        .summary-box.highlight small {
+            color: #C9D5E3;
+        }
+
+        .table-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 25px 0 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .table-heading h3 {
+            color: var(--navy);
+            font-size: 14px;
+        }
+
+        .table-heading span {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+            font-size: 11px;
+        }
+
+        thead {
+            background: var(--navy);
+            color: white;
+        }
+
+        th {
+            padding: 14px 12px;
+            text-align: right;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        th:first-child, td:first-child {
+            text-align: center;
+        }
+
+        td {
+            padding: 13px 12px;
+            border-bottom: 1px solid var(--border);
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #F8FAFC;
+        }
+
+        tbody tr:hover {
+            background: #F1F5F9;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table-total {
+            background: #F0F3F7 !important;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .table-total td {
+            border-top: 2px solid var(--gold);
+        }
+
+        .table-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+
+        .export-btn {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--navy);
+            border-radius: 7px;
+            padding: 10px 15px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .export-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .export-btn i {
+            margin-right: 7px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error-message {
+            display: none;
+            color: #B42318;
+            background: #FEF3F2;
+            border: 1px solid #FECDCA;
+            padding: 11px;
+            border-radius: 7px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        footer span {
+            color: var(--gold);
+        }
+
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 550px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            .header-label {
+                display: none;
+            }
+
+            main {
+                margin-top: 25px;
+                padding: 0 14px;
+            }
+
+            .page-heading h2 {
+                font-size: 23px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-box {
+                padding: 16px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>Loan Simulator</h1>
+    <header>
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <div>
+                <h1>Loan Simulator</h1>
+                <span>Financial Solutions</span>
+            </div>
+        </div>
 
-    <form id="loanForm">
-        <label for="amount">Monto del préstamo:</label>
-        <input type="number" id="amount" min="1" step="0.01" required>
-        <br><br>
+        <div class="header-label">
+            <i class="fa-solid fa-shield-halved"></i>
+            Simulación financiera
+        </div>
+    </header>
 
-        <label for="interestRate">Porcentaje de tasa de interés (%):</label>
-        <input type="number" id="interestRate" min="0" step="0.01" required>
-        <br><br>
+    <main>
 
-        <label for="interestType">Tipo de tasa:</label>
-        <select id="interestType" required>
-            <option value="monthly">Efectiva Mensual (EM)</option>
-            <option value="annual">Efectiva Anual (EA)</option>
-        </select>
-        <br><br>
+        <section class="page-heading">
+            <h2>Simulador de préstamos</h2>
+            <p>Calcula tus cuotas, consulta los intereses y conoce el comportamiento de tu préstamo mediante una tabla de amortización.</p>
+        </section>
 
-        <label for="term">Plazo (meses):</label>
-        <input type="number" id="term" min="1" step="1" required>
-        <br><br>
+        <div class="main-grid">
 
-        <button type="submit">Calcular préstamo</button>
-    </form>
+            <!-- FORMULARIO -->
+            <section class="card">
 
-    <h2>Resultados del préstamo</h2>
+                <div class="card-header">
+                    <i class="fa-solid fa-calculator"></i>
+                    <h3>Datos del préstamo</h3>
+                </div>
 
-    <p id="monthlyPayment"></p>
-    <p id="totalPayment"></p>
-    <p id="totalInterest"></p>
+                <div class="card-body">
 
-    <h2>Tabla de amortización</h2>
+                    <div id="errorMessage" class="error-message"></div>
 
-    <table border="1" id="amortizationTable">
-        <thead>
-            <tr>
-                <th>Mes</th>
-                <th>Cuota</th>
-                <th>Capital</th>
-                <th>Interés</th>
-                <th>Saldo pendiente</th>
-            </tr>
-        </thead>
-        <tbody id="amortizationBody">
-        </tbody>
-    </table>
+                    <form id="loanForm">
+
+                        <div class="form-group">
+                            <label for="amount">Monto del préstamo</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-dollar-sign"></i>
+                                <input
+                                    type="number"
+                                    id="amount"
+                                    placeholder="Ej. 50000000"
+                                    min="0.01"
+                                    step="0.01"
+                                    required
+                                >
+                            </div>
+                            <div class="input-hint">Ingresa el capital que deseas solicitar.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="interestRate">Tasa de interés (%)</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-percent"></i>
+                                <input
+                                    type="number"
+                                    id="interestRate"
+                                    placeholder="Ej. 1.5"
+                                    min="0"
+                                    step="0.01"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="interestType">Tipo de tasa de interés</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-chart-line"></i>
+                                <select id="interestType" required>
+                                    <option value="monthly">Efectiva Mensual (EM)</option>
+                                    <option value="annual">Efectiva Anual (EA)</option>
+                                </select>
+                            </div>
+                            <div class="input-hint">Selecciona la periodicidad de la tasa ingresada.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="term">Plazo del préstamo (meses)</label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-calendar"></i>
+                                <input
+                                    type="number"
+                                    id="term"
+                                    placeholder="Ej. 36"
+                                    min="1"
+                                    max="600"
+                                    step="1"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <button type="submit" class="calculate-btn">
+                            <i class="fa-solid fa-calculator"></i>
+                            CALCULAR PRÉSTAMO
+                        </button>
+
+                    </form>
+
+                </div>
+            </section>
+
+            <!-- RESULTADOS -->
+            <section class="card">
+
+                <div class="card-header">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <h3>Resumen financiero</h3>
+                </div>
+
+                <div class="results-content">
+
+                    <div id="resultsPlaceholder" class="results-placeholder">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                        <h3>Esperando información</h3>
+                        <p>Completa los datos del préstamo y presiona el botón de calcular para visualizar los resultados.</p>
+                    </div>
+
+                    <div id="resultsSection" class="hidden">
+
+                        <div class="summary-grid">
+
+                            <div class="summary-box highlight">
+                                <span class="summary-label">
+                                    <i class="fa-solid fa-wallet"></i> Cuota mensual
+                                </span>
+                                <div class="summary-value" id="monthlyPayment">$0</div>
+                                <small>Pago mensual estimado</small>
+                            </div>
+
+                            <div class="summary-box">
+                                <span class="summary-label">
+                                    <i class="fa-solid fa-coins"></i> Total de intereses
+                                </span>
+                                <div class="summary-value" id="totalInterest">$0</div>
+                                <small>Costo financiero total</small>
+                            </div>
+
+                            <div class="summary-box">
+                                <span class="summary-label">
+                                    <i class="fa-solid fa-money-bill-transfer"></i> Total a pagar
+                                </span>
+                                <div class="summary-value" id="totalPayment">$0</div>
+                                <small>Capital + intereses</small>
+                            </div>
+
+                        </div>
+
+                        <div class="table-heading">
+                            <h3>
+                                <i class="fa-solid fa-table-list"></i>
+                                Tabla de amortización
+                            </h3>
+                            <span id="termLabel"></span>
+                        </div>
+
+                        <div class="table-container">
+
+                            <table id="amortizationTable">
+                                <thead>
+                                    <tr>
+                                        <th>Mes</th>
+                                        <th>Cuota</th>
+                                        <th>Capital</th>
+                                        <th>Interés</th>
+                                        <th>Saldo pendiente</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="amortizationBody"></tbody>
+
+                                <tfoot id="amortizationFooter"></tfoot>
+                            </table>
+
+                        </div>
+
+                        <div class="table-actions">
+                            <button class="export-btn" id="exportBtn" type="button">
+                                <i class="fa-solid fa-file-csv"></i>
+                                Exportar tabla CSV
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+    </main>
+
+    <footer>
+        <p><span>Loan Simulator</span> &nbsp;|&nbsp; Herramienta de simulación financiera</p>
+        <p style="margin-top: 6px;">Los resultados son estimaciones y no constituyen una oferta de crédito.</p>
+    </footer>
 
     <script>
-        document.getElementById("loanForm").addEventListener("submit", function(event) {
+
+        // ELEMENTOS DEL DOM
+        const loanForm = document.getElementById("loanForm");
+        const amountInput = document.getElementById("amount");
+        const interestRateInput = document.getElementById("interestRate");
+        const interestTypeInput = document.getElementById("interestType");
+        const termInput = document.getElementById("term");
+
+        const resultsPlaceholder = document.getElementById("resultsPlaceholder");
+        const resultsSection = document.getElementById("resultsSection");
+        const amortizationBody = document.getElementById("amortizationBody");
+        const amortizationFooter = document.getElementById("amortizationFooter");
+        const errorMessage = document.getElementById("errorMessage");
+
+        let amortizationData = [];
+
+        // FORMATO DE MONEDA
+        function formatCurrency(value) {
+            return new Intl.NumberFormat("es-CO", {
+                style: "currency",
+                currency: "COP",
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(value);
+        }
+
+        // VALIDACIÓN Y CÁLCULO
+        loanForm.addEventListener("submit", function(event) {
+
             event.preventDefault();
 
-            // Obtener los valores ingresados
-            const amount = parseFloat(document.getElementById("amount").value);
-            const interestRate = parseFloat(document.getElementById("interestRate").value);
-            const interestType = document.getElementById("interestType").value;
-            const term = parseInt(document.getElementById("term").value);
+            errorMessage.style.display = "none";
 
-            // Validar los datos
+            const amount = Number(amountInput.value);
+            const annualOrMonthlyRate = Number(interestRateInput.value);
+            const interestType = interestTypeInput.value;
+            const term = Number(termInput.value);
+
+            // Validar información
             if (
                 !Number.isFinite(amount) || amount <= 0 ||
-                !Number.isFinite(interestRate) || interestRate < 0 ||
-                !Number.isInteger(term) || term <= 0
+                !Number.isFinite(annualOrMonthlyRate) || annualOrMonthlyRate < 0 ||
+                !Number.isInteger(term) || term < 1 || term > 600
             ) {
-                alert("Por favor, ingrese valores válidos.");
+                showError("Verifica los datos ingresados. El monto debe ser mayor que cero, la tasa no puede ser negativa y el plazo debe estar entre 1 y 600 meses.");
                 return;
             }
 
-            // Convertir la tasa ingresada a tasa efectiva mensual
-            const rate = interestRate / 100;
+            // Convertir la tasa a efectiva mensual
+            const rate = annualOrMonthlyRate / 100;
+
             let monthlyRate;
 
             if (interestType === "monthly") {
                 monthlyRate = rate;
             } else {
+                if (rate <= -1) {
+                    showError("La tasa efectiva anual debe ser mayor que -100%.");
+                    return;
+                }
+
                 monthlyRate = Math.pow(1 + rate, 1 / 12) - 1;
             }
 
-            // Calcular la cuota mensual
+            // Calcular cuota mensual usando el sistema de cuota fija
             let monthlyPayment;
 
             if (monthlyRate === 0) {
@@ -95,20 +759,28 @@
                     (1 - Math.pow(1 + monthlyRate, -term));
             }
 
-            // Generar la tabla de amortización
-            const tbody = document.getElementById("amortizationBody");
-            tbody.innerHTML = "";
+            if (!Number.isFinite(monthlyPayment)) {
+                showError("No fue posible calcular el préstamo con los valores ingresados.");
+                return;
+            }
 
+            // Generar amortización
             let balance = amount;
             let totalInterest = 0;
             let totalPayment = 0;
 
+            amortizationData = [];
+            amortizationBody.innerHTML = "";
+            amortizationFooter.innerHTML = "";
+
             for (let month = 1; month <= term; month++) {
+
                 const interest = balance * monthlyRate;
+
                 let capital = monthlyPayment - interest;
                 let payment = monthlyPayment;
 
-                // Ajustar la última cuota para eliminar diferencias por redondeo
+                // Ajustar la última cuota al saldo pendiente
                 if (month === term) {
                     capital = balance;
                     payment = capital + interest;
@@ -123,55 +795,129 @@
                 totalInterest += interest;
                 totalPayment += payment;
 
-                const row = document.createElement("tr");
-
-                const values = [
+                const rowData = {
                     month,
                     payment,
                     capital,
                     interest,
                     balance
+                };
+
+                amortizationData.push(rowData);
+
+                const row = document.createElement("tr");
+
+                const values = [
+                    month,
+                    formatCurrency(payment),
+                    formatCurrency(capital),
+                    formatCurrency(interest),
+                    formatCurrency(balance)
                 ];
 
-                values.forEach((value, index) => {
+                values.forEach(value => {
                     const cell = document.createElement("td");
-
-                    if (index === 0) {
-                        cell.textContent = value;
-                    } else {
-                        cell.textContent = value.toLocaleString("es-CO", {
-                            style: "currency",
-                            currency: "COP",
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        });
-                    }
-
+                    cell.textContent = value;
                     row.appendChild(cell);
                 });
 
-                tbody.appendChild(row);
+                amortizationBody.appendChild(row);
             }
 
-            // Mostrar resultados
-            const formatCurrency = (value) => {
-                return value.toLocaleString("es-CO", {
-                    style: "currency",
-                    currency: "COP",
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-            };
-
+            // Mostrar resumen
             document.getElementById("monthlyPayment").textContent =
-                "Cuota mensual aproximada: " + formatCurrency(monthlyPayment);
-
-            document.getElementById("totalPayment").textContent =
-                "Total a pagar: " + formatCurrency(totalPayment);
+                formatCurrency(monthlyPayment);
 
             document.getElementById("totalInterest").textContent =
-                "Total de intereses: " + formatCurrency(totalInterest);
+                formatCurrency(totalInterest);
+
+            document.getElementById("totalPayment").textContent =
+                formatCurrency(totalPayment);
+
+            document.getElementById("termLabel").textContent =
+                term + " cuotas mensuales";
+
+            // Fila de totales
+            const footerRow = document.createElement("tr");
+            footerRow.className = "table-total";
+
+            const footerValues = [
+                "TOTAL",
+                formatCurrency(totalPayment),
+                formatCurrency(amount),
+                formatCurrency(totalInterest),
+                formatCurrency(0)
+            ];
+
+            footerValues.forEach(value => {
+                const cell = document.createElement("td");
+                cell.textContent = value;
+                footerRow.appendChild(cell);
+            });
+
+            amortizationFooter.appendChild(footerRow);
+
+            // Cambiar visualización
+            resultsPlaceholder.classList.add("hidden");
+            resultsSection.classList.remove("hidden");
+
         });
+
+        // MOSTRAR ERRORES
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = "block";
+            resultsSection.classList.add("hidden");
+            resultsPlaceholder.classList.remove("hidden");
+        }
+
+        // EXPORTAR TABLA A CSV
+        document.getElementById("exportBtn").addEventListener("click", function() {
+
+            if (amortizationData.length === 0) {
+                return;
+            }
+
+            const headers = [
+                "Mes",
+                "Cuota",
+                "Capital",
+                "Interes",
+                "Saldo pendiente"
+            ];
+
+            const rows = amortizationData.map(row => [
+                row.month,
+                row.payment.toFixed(2),
+                row.capital.toFixed(2),
+                row.interest.toFixed(2),
+                row.balance.toFixed(2)
+            ]);
+
+            const csvContent = [
+                headers.join(";"),
+                ...rows.map(row => row.join(";"))
+            ].join("\n");
+
+            const blob = new Blob(
+                ["\uFEFF" + csvContent],
+                { type: "text/csv;charset=utf-8;" }
+            );
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+
+            link.href = url;
+            link.download = "tabla_amortizacion.csv";
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            URL.revokeObjectURL(url);
+
+        });
+
     </script>
 
 </body>
